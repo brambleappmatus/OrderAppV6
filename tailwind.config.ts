@@ -22,7 +22,7 @@ const config: Config = {
         '2xl': '1536px',
       },
       spacing: {
-        'sidebar': '10rem',
+        'sidebar': '12rem',
       },
     },
   },

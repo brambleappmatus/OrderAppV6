@@ -126,12 +126,12 @@ export default function CartSummary() {
               <p className="text-[10px] text-gray-600 dark:text-gray-300 text-center">
                 {translations.shop.cart.scanToPay}
               </p>
-              <div className="relative w-16 h-16 bg-white dark:bg-zinc-100 rounded p-1 shadow-md">
+              <div className="relative w-24 h-24 bg-white dark:bg-zinc-100 rounded p-1 shadow-md">
                 <Image
                   src="/qr-code.png"
                   alt="Payment QR Code"
-                  width={64}
-                  height={64}
+                  width={96}
+                  height={96}
                   className="transition-all duration-200"
                   priority
                 />

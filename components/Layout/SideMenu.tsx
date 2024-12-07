@@ -14,7 +14,7 @@ export default function SideMenu() {
   const { goToShop, goToAdmin } = useNavigation();
 
   return (
-    <div className="fixed left-0 top-0 h-full w-40 bg-white dark:bg-zinc-800 shadow-lg transition-all duration-300 border-r border-gray-200 dark:border-zinc-700">
+    <div className="fixed left-0 top-0 h-full w-48 bg-white dark:bg-zinc-800 shadow-lg transition-all duration-300 border-r border-gray-200 dark:border-zinc-700">
       <div className="p-2 flex flex-col h-full">
         <div className="flex-grow">
           <div className="border-b border-gray-200 dark:border-zinc-700 pb-2 mb-2">

@@ -49,7 +49,7 @@ export default function MobileMenu() {
         />
       )}
 
-      <div className={`fixed top-0 left-0 h-full w-40 bg-white dark:bg-zinc-800 shadow-lg transform transition-transform duration-300 ease-in-out z-50 border-r border-gray-200 dark:border-zinc-700 ${
+      <div className={`fixed top-0 left-0 h-full w-48 bg-white dark:bg-zinc-800 shadow-lg transform transition-transform duration-300 ease-in-out z-50 border-r border-gray-200 dark:border-zinc-700 ${
         isOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
         <div className="p-2 flex flex-col h-full">
