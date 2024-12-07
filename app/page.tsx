@@ -28,11 +28,13 @@ export default function Home() {
     <main className="p-2 sm:p-4 bg-white dark:bg-zinc-900 min-h-screen">
       <div className="max-w-7xl mx-auto">
         <ThemeToggle />
-        <h1 className="text-lg sm:text-xl font-bold mb-4 text-gray-800 dark:text-zinc-100 mt-8">
-          {translations.shop.title}
-        </h1>
-        
-        <SearchBar value={searchQuery} onChange={setSearchQuery} />
+        <div className="mt-16 mb-4">
+          <h1 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-zinc-100">
+            {translations.shop.title}
+          </h1>
+          
+          <SearchBar value={searchQuery} onChange={setSearchQuery} />
+        </div>
         
         <ProductGrid 
           products={visibleProducts}

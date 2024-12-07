@@ -29,7 +29,7 @@ export default function CartSummary() {
   return (
     <div className="flex flex-col h-full">
       {/* Cart Items Section */}
-      <div className="relative flex-grow min-h-0 mb-1" style={{ height: 'calc(100vh - 28rem)' }}>
+      <div className="relative flex-grow min-h-0 mb-2" style={{ height: 'calc(100vh - 32rem)' }}>
         <div className="absolute inset-0 overflow-y-auto">
           <div className="space-y-1">
             {cart.map((item) => (
@@ -61,14 +61,14 @@ export default function CartSummary() {
           </div>
         </div>
         {/* Fade overlay */}
-        <div className="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-white dark:from-zinc-800 to-transparent pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-3 bg-gradient-to-t from-white dark:from-zinc-800 to-transparent pointer-events-none"></div>
       </div>
 
       {/* Bottom Section */}
       <div className="flex-shrink-0 pb-20">
         {/* Macros */}
         {cart.length > 0 && (
-          <div className="text-[10px] text-gray-500 dark:text-gray-400 grid grid-cols-4 gap-1 mb-2">
+          <div className="text-[10px] text-gray-500 dark:text-gray-400 grid grid-cols-4 gap-1 mb-3">
             <div className="text-center">
               <span className="block font-medium">{totalMacros.kcal}</span>
               <span className="text-[8px]">{translations.shop.cart.macros.kcal}</span>
@@ -89,19 +89,22 @@ export default function CartSummary() {
         )}
 
         {/* Total and Donation */}
-        <div className="border-t dark:border-zinc-700 pt-1.5 mb-2">
-          <p className="font-semibold text-gray-800 dark:text-white text-xs mb-1.5">
+        <div className="border-t dark:border-zinc-700 pt-2 mb-3">
+          <p className="font-semibold text-gray-800 dark:text-white text-xs mb-2">
             {translations.shop.cart.total}: €{total.toFixed(2)}
           </p>
-          <div className="bg-gradient-to-r from-pink-50 to-purple-50 dark:from-pink-950/30 dark:to-purple-950/30 p-1.5 rounded-lg border border-pink-100 dark:border-pink-900/30">
-            <div className="flex items-center gap-1">
-              <HeartIcon className="h-3 w-3 text-pink-500 dark:text-pink-400 animate-pulse" />
-              <span className="font-medium text-gray-800 dark:text-white text-[10px]">
+          <div className="bg-gradient-to-r from-pink-50 to-purple-50 dark:from-pink-950/30 dark:to-purple-950/30 p-2 rounded-lg border border-pink-100 dark:border-pink-900/30">
+            <div className="flex items-center gap-1.5 mb-1">
+              <HeartIcon className="h-3.5 w-3.5 text-pink-500 dark:text-pink-400 animate-pulse" />
+              <span className="font-medium text-gray-800 dark:text-white text-[11px]">
                 {translations.shop.cart.shelterDonation.title}
               </span>
             </div>
-            <p className="font-medium text-pink-600 dark:text-pink-400 text-[10px]">
+            <p className="font-medium text-pink-600 dark:text-pink-400 text-[11px] mb-0.5">
               €{shelterDonation.toFixed(2)} {translations.shop.cart.shelterDonation.amount}
+            </p>
+            <p className="text-[10px] text-gray-600 dark:text-gray-300">
+              {translations.shop.cart.shelterDonation.description}
             </p>
           </div>
         </div>
