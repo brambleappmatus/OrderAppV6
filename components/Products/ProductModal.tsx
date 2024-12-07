@@ -37,15 +37,17 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                 </span>
               </div>
             ) : (
-              <Image
-                src={product.imageUrl}
-                alt={product.name}
-                fill
-                className="object-cover rounded-t-xl"
-                onError={() => setImageError(true)}
-                sizes="(max-width: 768px) 100vw, 32rem"
-                unoptimized
-              />
+              <div className="w-full h-full relative rounded-t-xl overflow-hidden">
+                <Image
+                  src={product.imageUrl}
+                  alt={product.name}
+                  fill
+                  className="object-contain"
+                  onError={() => setImageError(true)}
+                  sizes="(max-width: 768px) 100vw, 32rem"
+                  unoptimized
+                />
+              </div>
             )}
           </div>
 
