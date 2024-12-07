@@ -12,35 +12,42 @@ export default function CartTimeoutWarning() {
 
   useEffect(() => {
     let activityTimeout: NodeJS.Timeout;
+    let clearCartTimeout: NodeJS.Timeout;
+    let countdownInterval: NodeJS.Timeout;
 
     const resetTimeout = () => {
+      // Clear any existing timeouts
       if (activityTimeout) clearTimeout(activityTimeout);
+      if (clearCartTimeout) clearTimeout(clearCartTimeout);
+      if (countdownInterval) clearInterval(countdownInterval);
       
       if (cart.length > 0) {
         activityTimeout = setTimeout(() => {
           setShowWarning(true);
-          startCountdown();
+          setCountdown(10);
+          
+          // Start countdown interval
+          countdownInterval = setInterval(() => {
+            setCountdown(prev => {
+              if (prev <= 1) {
+                clearInterval(countdownInterval);
+                return 0;
+              }
+              return prev - 1;
+            });
+          }, 1000);
+
+          // Set timeout to clear cart
+          clearCartTimeout = setTimeout(async () => {
+            await clearCart();
+            setShowWarning(false);
+            setCountdown(10);
+          }, 10000);
+
+          setTimeoutId(clearCartTimeout);
+          setCountdownId(countdownInterval);
         }, 60000); // 1 minute
       }
-    };
-
-    const startCountdown = () => {
-      const newTimeoutId = setTimeout(async () => {
-        await clearCart();
-        setShowWarning(false);
-      }, 10000); // 10 seconds
-      setTimeoutId(newTimeoutId);
-
-      const newCountdownId = setInterval(() => {
-        setCountdown((prev) => {
-          if (prev <= 1) {
-            if (newCountdownId) clearInterval(newCountdownId);
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-      setCountdownId(newCountdownId);
     };
 
     // Initialize timeout if cart has items
@@ -50,8 +57,8 @@ export default function CartTimeoutWarning() {
 
     return () => {
       if (activityTimeout) clearTimeout(activityTimeout);
-      if (timeoutId) clearTimeout(timeoutId);
-      if (countdownId) clearInterval(countdownId);
+      if (clearCartTimeout) clearTimeout(clearCartTimeout);
+      if (countdownInterval) clearInterval(countdownInterval);
     };
   }, [cart.length, clearCart]);
 
