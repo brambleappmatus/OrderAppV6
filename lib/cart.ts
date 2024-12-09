@@ -4,7 +4,7 @@ import { cartManager } from './cartManager';
 
 export async function addToCart(data: AddToCartData): Promise<CartItem> {
   try {
-    const cartId = await cartManager.initializeCart();
+    const cartId = await cartManager.getOrCreateCartId();
     
     const { data: cartItem, error } = await supabase
       .from('cart')
@@ -33,8 +33,7 @@ export async function addToCart(data: AddToCartData): Promise<CartItem> {
 
 export async function fetchCartItems(): Promise<CartItem[]> {
   try {
-    const cartId = cartManager.getCartId();
-    if (!cartId) return [];
+    const cartId = await cartManager.getOrCreateCartId();
 
     const { data, error } = await supabase
       .from('cart')

@@ -24,8 +24,32 @@ const config: Config = {
       spacing: {
         'sidebar': '12rem',
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            maxWidth: 'none',
+            color: 'inherit',
+            a: {
+              color: 'inherit',
+              textDecoration: 'none',
+              fontWeight: '500',
+            },
+            h1: {
+              color: 'inherit',
+            },
+            h2: {
+              color: 'inherit',
+            },
+            h3: {
+              color: 'inherit',
+            },
+          },
+        },
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
 };
 export default config;

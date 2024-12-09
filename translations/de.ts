@@ -56,5 +56,24 @@ export const de = {
         carbs: 'K'
       }
     }
+  },
+  footer: {
+    company: {
+      title: 'Unternehmensinformationen'
+    },
+    legal: {
+      title: 'Rechtliches',
+      terms: 'AGB',
+      privacy: 'Datenschutz',
+      shipping: 'Versandinformationen',
+      returns: 'Rückgabe & Erstattung'
+    },
+    contact: {
+      title: 'Kontakt'
+    },
+    payment: {
+      title: 'Zahlungsmethoden'
+    },
+    copyright: 'Alle Rechte vorbehalten.'
   }
 };

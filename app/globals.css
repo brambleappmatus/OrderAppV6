@@ -23,10 +23,13 @@
 body {
   color: rgb(var(--foreground-rgb));
   background: rgb(var(--background-rgb));
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .products-container {
-  height: calc(100vh - 8rem);
+  height: calc(100vh - 11rem);
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);

@@ -27,7 +27,8 @@ export const cartReducer: StateCreator<CartState, [], [], CartState> = (set, get
       set({ cart: cartItems, isLoading: false });
     } catch (error) {
       console.error('Error refreshing cart:', error);
-      set({ isLoading: false });
+      set({ isLoading: false, cart: [] });
+      cartManager.clearCartId();
       toast.error('Failed to refresh cart');
     }
   },
@@ -35,8 +36,13 @@ export const cartReducer: StateCreator<CartState, [], [], CartState> = (set, get
   addToCart: async (product, quantity = 1) => {
     try {
       set({ isLoading: true });
+      
+      // Ensure we have a valid cart session
+      await cartManager.validateCartSession();
+      const cartId = await cartManager.initializeCart();
+
       const cartData: AddToCartData = {
-        cart_id: cartManager.getCartId() || '',
+        cart_id: cartId,
         product_id: product.id,
         product_name: product.name,
         quantity,
@@ -61,13 +67,21 @@ export const cartReducer: StateCreator<CartState, [], [], CartState> = (set, get
     } catch (error) {
       console.error('Error adding to cart:', error);
       set({ isLoading: false });
-      toast.error('Failed to add item to cart');
+      cartManager.clearCartId();
+      toast.error('Failed to add item to cart. Please try again.');
     }
   },
 
   removeFromCart: async (cartItemId) => {
     try {
       set({ isLoading: true });
+      
+      // Validate cart session before operation
+      const isValid = await cartManager.validateCartSession();
+      if (!isValid) {
+        throw new Error('Invalid cart session');
+      }
+
       await removeFromCart(cartItemId);
       await get().refreshCart();
 
@@ -85,6 +99,7 @@ export const cartReducer: StateCreator<CartState, [], [], CartState> = (set, get
     } catch (error) {
       console.error('Error removing from cart:', error);
       set({ isLoading: false });
+      cartManager.clearCartId();
       toast.error('Failed to remove item from cart');
     }
   },
@@ -92,11 +107,19 @@ export const cartReducer: StateCreator<CartState, [], [], CartState> = (set, get
   updateCartItemQuantity: async (cartItemId, quantity) => {
     try {
       set({ isLoading: true });
+      
+      // Validate cart session before operation
+      const isValid = await cartManager.validateCartSession();
+      if (!isValid) {
+        throw new Error('Invalid cart session');
+      }
+
       await updateCartItemQuantity(cartItemId, quantity);
       await get().refreshCart();
     } catch (error) {
       console.error('Error updating cart item quantity:', error);
       set({ isLoading: false });
+      cartManager.clearCartId();
       toast.error('Failed to update quantity');
     }
   },
@@ -104,9 +127,11 @@ export const cartReducer: StateCreator<CartState, [], [], CartState> = (set, get
   clearCart: async () => {
     try {
       await clearCartInDb();
+      cartManager.clearCartId();
       set({ cart: [] });
     } catch (error) {
       console.error('Error clearing cart:', error);
+      cartManager.clearCartId();
       toast.error('Failed to clear cart');
     }
   },
