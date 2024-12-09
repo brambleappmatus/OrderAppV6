@@ -68,10 +68,10 @@ export class CartManager {
         .single();
 
       if (error) throw error;
-      if (!data) throw new Error('Failed to create cart');
+      if (!data?.id) throw new Error('Failed to create cart');
       
       this.cartId = data.id;
-      if (typeof window !== 'undefined') {
+      if (typeof window !== 'undefined' && this.cartId) {
         localStorage.setItem('cartId', this.cartId);
       }
 
