@@ -56,5 +56,24 @@ export const sk = {
         carbs: 'S'
       }
     }
+  },
+  footer: {
+    company: {
+      title: 'Informácie o Spoločnosti'
+    },
+    legal: {
+      title: 'Právne Informácie',
+      terms: 'Obchodné Podmienky',
+      privacy: 'Ochrana Osobných Údajov',
+      shipping: 'Dodacie Podmienky',
+      returns: 'Reklamačný Poriadok'
+    },
+    contact: {
+      title: 'Kontakt'
+    },
+    payment: {
+      title: 'Spôsoby Platby'
+    },
+    copyright: 'Všetky práva vyhradené.'
   }
 };

@@ -36,6 +36,12 @@ export async function fetchCartItems(): Promise<CartItem[]> {
     const cartId = cartManager.getCartId();
     if (!cartId) return [];
 
+    // Validate cart session first
+    const isValid = await cartManager.validateCartSession();
+    if (!isValid) {
+      return [];
+    }
+
     const { data, error } = await supabase
       .from('cart')
       .select(`

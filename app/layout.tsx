@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import { Providers } from './providers';
 import ClientLayout from '@/components/Layout/ClientLayout';
 import CartTimeoutWarning from '@/components/Cart/CartTimeoutWarning';
+import Screensaver from '@/components/Screensaver/Screensaver';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -27,6 +28,7 @@ export default function RootLayout({
           <ClientLayout inter={inter}>
             {children}
             <CartTimeoutWarning />
+            <Screensaver />
           </ClientLayout>
         </Providers>
       </body>

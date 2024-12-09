@@ -56,5 +56,24 @@ export const en = {
         carbs: 'C'
       }
     }
+  },
+  footer: {
+    company: {
+      title: 'Company Information'
+    },
+    legal: {
+      title: 'Legal',
+      terms: 'Terms & Conditions',
+      privacy: 'Privacy Policy',
+      shipping: 'Shipping Information',
+      returns: 'Returns & Refunds'
+    },
+    contact: {
+      title: 'Contact Us'
+    },
+    payment: {
+      title: 'Payment Methods'
+    },
+    copyright: 'All rights reserved.'
   }
 };
