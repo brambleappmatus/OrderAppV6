@@ -26,7 +26,7 @@ export class CartManager {
     // Skip validation if we've validated recently
     const now = Date.now();
     if (now - this.lastValidationTime < this.validationInterval) {
-      return true;
+      return this.cartId !== null;
     }
 
     if (!this.cartId) return false;
@@ -71,11 +71,13 @@ export class CartManager {
       if (!data?.id) throw new Error('Failed to create cart');
       
       this.cartId = data.id;
-      if (typeof window !== 'undefined' && this.cartId) {
-        localStorage.setItem('cartId', this.cartId);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('cartId', data.id);
       }
 
-      return this.cartId;
+      this.lastValidationTime = Date.now();
+      return data.id;
+
     } catch (error) {
       console.error('Error initializing cart:', error);
       this.clearCartId();
@@ -83,19 +85,24 @@ export class CartManager {
     }
   }
 
+  async getOrCreateCartId(): Promise<string> {
+    if (this.cartId) {
+      const isValid = await this.validateCartSession();
+      if (isValid) return this.cartId;
+    }
+    return this.initializeCart();
+  }
+
   async updateCartTimestamp(): Promise<void> {
-    if (!this.cartId) return;
+    const cartId = await this.getOrCreateCartId();
 
     try {
       const { error } = await supabase
         .from('carts')
         .update({ updated_at: new Date().toISOString() })
-        .eq('id', this.cartId);
+        .eq('id', cartId);
 
-      if (error) {
-        await this.validateCartSession();
-        throw error;
-      }
+      if (error) throw error;
     } catch (error) {
       console.error('Error updating cart timestamp:', error);
       this.clearCartId();
