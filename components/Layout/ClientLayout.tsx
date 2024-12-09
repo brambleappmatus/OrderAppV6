@@ -3,7 +3,7 @@
 import { NextFont } from 'next/dist/compiled/@next/font';
 import MobileMenu from './MobileMenu';
 import SideMenu from './SideMenu';
-import Footer from '../Footer/Footer';
+import FloatingFooter from '../Footer/FloatingFooter';
 
 interface ClientLayoutProps {
   children: React.ReactNode;
@@ -23,9 +23,7 @@ export default function ClientLayout({ children, inter }: ClientLayoutProps) {
         <main className="flex-1 xs:ml-sidebar transition-all duration-300">
           {children}
         </main>
-        <div className="xs:ml-sidebar">
-          <Footer />
-        </div>
+        <FloatingFooter />
       </div>
     </div>
   );
