@@ -7,9 +7,10 @@ import ProductList from '@/components/Admin/ProductList';
 import ProductReorderModal from '@/components/Admin/ProductReorderModal';
 import LoginForm from '@/components/Admin/LoginForm';
 import LanguageSelector from '@/components/Admin/LanguageSelector';
+import SettingsMenu from '@/components/Admin/SettingsMenu';
 import { useStore } from '@/store/useStore';
 import { Product } from '@/types/product';
-import { PlusIcon, XMarkIcon, ArrowsUpDownIcon } from '@heroicons/react/24/outline';
+import { PlusIcon, ArrowsUpDownIcon } from '@heroicons/react/24/outline';
 import { useProducts } from '@/hooks/useProducts';
 
 export default function AdminPageClient() {
@@ -71,6 +72,7 @@ export default function AdminPageClient() {
           {translations.admin.title}
         </h1>
         <div className="flex items-center gap-4">
+          <SettingsMenu />
           <LanguageSelector />
           <button
             onClick={handleLogout}
@@ -120,28 +122,14 @@ export default function AdminPageClient() {
       </div>
 
       {showForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white dark:bg-zinc-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto relative">
-            <button
-              onClick={() => {
-                setEditingProduct(null);
-                setShowForm(false);
-              }}
-              className="absolute top-4 right-4 p-2 hover:bg-gray-100 dark:hover:bg-zinc-700 rounded-lg transition-colors"
-            >
-              <XMarkIcon className="h-5 w-5 text-gray-500 dark:text-zinc-400" />
-            </button>
-            <div className="p-6">
-              <h2 className="text-xl font-semibold mb-6 text-gray-800 dark:text-zinc-100 pr-8">
-                {editingProduct ? translations.admin.editProduct : translations.admin.addProduct}
-              </h2>
-              <ProductForm 
-                editingProduct={editingProduct} 
-                onComplete={handleFormComplete}
-              />
-            </div>
-          </div>
-        </div>
+        <ProductForm 
+          editingProduct={editingProduct} 
+          onComplete={handleFormComplete}
+          onClose={() => {
+            setEditingProduct(null);
+            setShowForm(false);
+          }}
+        />
       )}
 
       {showReorderModal && (

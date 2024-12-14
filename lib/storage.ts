@@ -1,22 +1,22 @@
 import { supabase } from './supabase';
 import { STORAGE_CONFIG } from './config';
 
-const { BUCKET_NAME, FOLDER_NAME, FALLBACK_IMAGE_URL } = STORAGE_CONFIG;
+const { FALLBACK_IMAGE_URL } = STORAGE_CONFIG;
 
-export async function uploadImage(file: File): Promise<{ url: string; path: string }> {
+export async function uploadImage(file: File, bucket: string = 'images'): Promise<{ url: string; path: string }> {
   try {
     const fileExt = file.name.split('.').pop();
     const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-    const filePath = `${FOLDER_NAME}/${fileName}`;
+    const filePath = `${bucket === 'rescues' ? 'rescues' : 'products'}/${fileName}`;
 
     const { error: uploadError } = await supabase.storage
-      .from(BUCKET_NAME)
+      .from(bucket)
       .upload(filePath, file);
 
     if (uploadError) throw uploadError;
 
     const { data } = supabase.storage
-      .from(BUCKET_NAME)
+      .from(bucket)
       .getPublicUrl(filePath);
 
     if (!data?.publicUrl) {
@@ -33,12 +33,12 @@ export async function uploadImage(file: File): Promise<{ url: string; path: stri
   }
 }
 
-export async function deleteImage(path: string | null): Promise<void> {
+export async function deleteImage(path: string | null, bucket: string = 'images'): Promise<void> {
   if (!path) return;
 
   try {
     const { error } = await supabase.storage
-      .from(BUCKET_NAME)
+      .from(bucket)
       .remove([path]);
 
     if (error) throw error;
@@ -48,11 +48,11 @@ export async function deleteImage(path: string | null): Promise<void> {
   }
 }
 
-export function getImageUrl(path: string | null): string {
+export function getImageUrl(path: string | null, bucket: string = 'images'): string {
   if (!path) return FALLBACK_IMAGE_URL;
 
   const { data } = supabase.storage
-    .from(BUCKET_NAME)
+    .from(bucket)
     .getPublicUrl(path);
 
   return data?.publicUrl || FALLBACK_IMAGE_URL;
