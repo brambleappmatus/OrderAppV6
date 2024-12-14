@@ -5,12 +5,13 @@ import { uploadImage, deleteImage } from '@/lib/storage';
 import toast from 'react-hot-toast';
 import ImageUpload from '@/components/UI/ImageUpload';
 
-interface ProductFormProps {
+export interface ProductFormProps {
   editingProduct: Product | null;
-  onComplete: () => void;
+  onComplete: () => Promise<void>;
+  onClose: () => void;
 }
 
-export default function ProductForm({ editingProduct, onComplete }: ProductFormProps) {
+export default function ProductForm({ editingProduct, onComplete, onClose }: ProductFormProps) {
   const { addProduct, editProduct, updateLocalProduct, translations } = useStore();
   const [isUploading, setIsUploading] = useState(false);
   const [formData, setFormData] = useState({
@@ -115,7 +116,7 @@ export default function ProductForm({ editingProduct, onComplete }: ProductFormP
       fats: parseInt(formData.fats),
       carbs: parseInt(formData.carbs),
       hidden: editingProduct?.hidden || false,
-      charityAmount: price * 0.1 // Calculate charity amount as 10% of price
+      charityAmount: price * 0.1
     };
 
     try {
@@ -124,9 +125,11 @@ export default function ProductForm({ editingProduct, onComplete }: ProductFormP
       } else {
         await addProduct(productData);
       }
-      onComplete();
+      await onComplete();
+      onClose();
     } catch (error) {
       console.error('Form submission error:', error);
+      toast.error('Failed to save product');
     }
   };
 
