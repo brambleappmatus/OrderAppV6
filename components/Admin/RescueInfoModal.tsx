@@ -3,6 +3,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 import { fetchRescueInfo, updateRescueInfo, uploadRescueImage } from '@/lib/rescueInfo';
 import ImageUpload from '@/components/UI/ImageUpload';
 import toast from 'react-hot-toast';
+import { RescueInfo } from '@/types/rescue';
 
 interface RescueInfoModalProps {
   onClose: () => void;
@@ -14,14 +15,16 @@ interface FormData {
   image_url: string;
 }
 
+const initialFormData: FormData = {
+  title: '',
+  description: '',
+  image_url: ''
+};
+
 export default function RescueInfoModal({ onClose }: RescueInfoModalProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [isUploading, setIsUploading] = useState(false);
-  const [formData, setFormData] = useState<FormData>({
-    title: '',
-    description: '',
-    image_url: ''
-  });
+  const [formData, setFormData] = useState<FormData>(initialFormData);
 
   useEffect(() => {
     const loadCurrentInfo = async () => {
@@ -64,7 +67,7 @@ export default function RescueInfoModal({ onClose }: RescueInfoModalProps) {
     }
   };
 
-  const handleImageRemove = () => {
+  const handleImageRemove = async () => {
     setFormData(prev => ({
       ...prev,
       image_url: ''

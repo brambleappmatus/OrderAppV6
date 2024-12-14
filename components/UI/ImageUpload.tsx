@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useCallback, useState } from 'react';
 import { PhotoIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
@@ -7,7 +5,7 @@ import { STORAGE_CONFIG } from '@/lib/config';
 
 interface ImageUploadProps {
   onImageUpload: (file: File) => Promise<void>;
-  onImageRemove: () => Promise<void>;
+  onImageRemove: () => void | Promise<void>;
   imageUrl?: string | null;
   isUploading?: boolean;
 }
